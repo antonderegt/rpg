@@ -1,5 +1,7 @@
 package nl.experis.attributes;
 
+import java.util.Objects;
+
 public class PrimaryAttributes {
     private int strength;
     private int dexterity;
@@ -18,6 +20,19 @@ public class PrimaryAttributes {
         this.dexterity += additionalAttributes.getDexterity();
         this.intelligence += additionalAttributes.getIntelligence();
         this.vitality += additionalAttributes.getVitality();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PrimaryAttributes that = (PrimaryAttributes) o;
+        return strength == that.strength && dexterity == that.dexterity && intelligence == that.intelligence && vitality == that.vitality;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(strength, dexterity, intelligence, vitality);
     }
 
     public int getStrength() {

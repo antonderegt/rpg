@@ -3,17 +3,19 @@ package nl.experis.characters;
 import nl.experis.attributes.PrimaryAttributes;
 import nl.experis.exceptions.InvalidArmorException;
 import nl.experis.exceptions.InvalidWeaponException;
-import nl.experis.items.*;
+import nl.experis.items.Armor;
+import nl.experis.items.ArmorType;
+import nl.experis.items.Weapon;
+import nl.experis.items.WeaponType;
 
-public class Warrior extends Character {
-
-    public Warrior(String name) {
-        super(name, 10, 5, 2, 1);
+public class Rogue extends Character {
+    public Rogue(String name) {
+        super(name, 8, 2, 6, 1);
     }
 
     @Override
     public boolean equip(Weapon weapon) throws InvalidWeaponException {
-        if(weapon.getWeaponType() != WeaponType.AXE && weapon.getWeaponType() != WeaponType.HAMMER && weapon.getWeaponType() != WeaponType.SWORD) {
+        if(weapon.getWeaponType() != WeaponType.DAGGER && weapon.getWeaponType() != WeaponType.SWORD) {
             throw new InvalidWeaponException();
         }
 
@@ -28,7 +30,7 @@ public class Warrior extends Character {
 
     @Override
     public boolean equip(Armor armor) throws InvalidArmorException {
-        if(armor.getArmorType() != ArmorType.MAIL && armor.getArmorType() != ArmorType.PLATE) {
+        if(armor.getArmorType() != ArmorType.MAIL && armor.getArmorType() != ArmorType.LEATHER) {
             throw new InvalidArmorException();
         }
 
@@ -46,7 +48,7 @@ public class Warrior extends Character {
         if(levels < 1) throw new IllegalArgumentException();
 
         setLevel(getLevel() + levels);
-        PrimaryAttributes levelUpAttributes = new PrimaryAttributes(5 * levels, 3 * levels, 2 * levels, 1 * levels);
+        PrimaryAttributes levelUpAttributes = new PrimaryAttributes(3 * levels, 1 * levels, 4 * levels, 1 * levels);
         getBasePrimaryAttributes().add(levelUpAttributes);
 
         calculateSecondaryStats();
