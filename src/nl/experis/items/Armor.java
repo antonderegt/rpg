@@ -16,15 +16,7 @@ public class Armor extends Item {
         return armorType;
     }
 
-    public void setArmorType(ArmorType armorType) {
-        this.armorType = armorType;
-    }
-
     public PrimaryAttributes getAttributes() {
         return attributes;
-    }
-
-    public void setAttributes(PrimaryAttributes attributes) {
-        this.attributes = attributes;
     }
 }

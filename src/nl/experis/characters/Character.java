@@ -39,50 +39,41 @@ public abstract class Character {
 
     public double calculateDamagePerSecond() {
         Weapon weapon = (Weapon) this.equipment.get(SlotType.WEAPON);
-        double weaponDPS = 1;
-        if(weapon != null) {
-            weaponDPS = weapon.getAttackSpeed() * weapon.getDamage();
-        }
+
+        double weaponDPS = weapon != null ? weapon.getAttackSpeed() * weapon.getDamage() : 1;
 
         calculateArmorBonus();
+
         double multiplier = 1 + this.totalPrimaryAttributes.getStrength() / 100.0;
 
         return weaponDPS * multiplier;
     }
 
     private void calculateArmorBonus() {
-        int vitalityBonus = 0;
-        int strengthBonus = 0;
-        int dexterityBonus = 0;
-        int intelligenceBonus = 0;
-
         Armor headArmor = (Armor) this.equipment.get(SlotType.HEADER);
         Armor bodyArmor = (Armor) this.equipment.get(SlotType.BODY);
         Armor legsArmor = (Armor) this.equipment.get(SlotType.LEGS);
 
-        if(headArmor != null) {
-            vitalityBonus += headArmor.getAttributes().getVitality();
-            strengthBonus += headArmor.getAttributes().getStrength();
-            dexterityBonus += headArmor.getAttributes().getDexterity();
-            intelligenceBonus += headArmor.getAttributes().getIntelligence();
+        PrimaryAttributes headBonus = getBonus(headArmor);
+        PrimaryAttributes bodyBonus = getBonus(bodyArmor);
+        PrimaryAttributes legsBonus = getBonus(legsArmor);
+
+        this.totalPrimaryAttributes.add(headBonus);
+        this.totalPrimaryAttributes.add(bodyBonus);
+        this.totalPrimaryAttributes.add(legsBonus);
+    }
+
+    private PrimaryAttributes getBonus(Armor armor) {
+        if(armor == null) {
+            return new PrimaryAttributes(0, 0, 0, 0);
         }
 
-        if(bodyArmor != null) {
-            vitalityBonus += bodyArmor.getAttributes().getVitality();
-            strengthBonus += bodyArmor.getAttributes().getStrength();
-            dexterityBonus += bodyArmor.getAttributes().getDexterity();
-            intelligenceBonus += bodyArmor.getAttributes().getIntelligence();
-        }
-
-        if(legsArmor != null) {
-            vitalityBonus += legsArmor.getAttributes().getVitality();
-            strengthBonus += legsArmor.getAttributes().getStrength();
-            dexterityBonus += legsArmor.getAttributes().getDexterity();
-            intelligenceBonus += legsArmor.getAttributes().getIntelligence();
-        }
-
-        PrimaryAttributes armorBonus = new PrimaryAttributes(vitalityBonus, strengthBonus, dexterityBonus, intelligenceBonus);
-        this.totalPrimaryAttributes.add(armorBonus);
+        return new PrimaryAttributes(
+                armor.getAttributes().getVitality(),
+                armor.getAttributes().getStrength(),
+                armor.getAttributes().getDexterity(),
+                armor.getAttributes().getIntelligence()
+        );
     }
 
     public abstract boolean equip(Weapon weapon) throws InvalidWeaponException;
@@ -103,28 +94,8 @@ public abstract class Character {
         return basePrimaryAttributes;
     }
 
-    public void setBasePrimaryAttributes(PrimaryAttributes basePrimaryAttributes) {
-        this.basePrimaryAttributes = basePrimaryAttributes;
-    }
-
-    public PrimaryAttributes getTotalPrimaryAttributes() {
-        return totalPrimaryAttributes;
-    }
-
-    public void setTotalPrimaryAttributes(PrimaryAttributes totalPrimaryAttributes) {
-        this.totalPrimaryAttributes = totalPrimaryAttributes;
-    }
-
     public SecondaryAttributes getSecondaryAttributes() {
         return secondaryAttributes;
-    }
-
-    public void setSecondaryAttributes(SecondaryAttributes secondaryAttributes) {
-        this.secondaryAttributes = secondaryAttributes;
-    }
-
-    public HashMap<SlotType, Item> getEquipment() {
-        return equipment;
     }
 
     public void setEquipment(SlotType type, Item item) {

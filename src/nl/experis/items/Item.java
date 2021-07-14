@@ -11,27 +11,11 @@ public abstract class Item {
         this.itemSlot = itemSlot;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getItemLevel() {
         return itemLevel;
     }
 
-    public void setItemLevel(int itemLevel) {
-        this.itemLevel = itemLevel;
-    }
-
     public SlotType getItemSlot() {
         return itemSlot;
-    }
-
-    public void setItemSlot(SlotType itemSlot) {
-        this.itemSlot = itemSlot;
     }
 }
